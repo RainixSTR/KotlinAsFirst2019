@@ -173,7 +173,7 @@ fun quadraticEquationRoot(a: Double, b: Double, c: Double) =
 
 Примеры других функций из `kotlin.math`:
 
- * abs(x: Int) или abs(x: Double) -- модуль;
+ * abs(x: Int) или abs(x: Double) -- моуль;
  * sqrt(x: Double) -- квадратный корень;
  * Double.pow(x: Double) -- возведение в степень x^y^, используется как `x.pow(y)`;
  * sin(x: Double) -- синус, cos(x: Double) -- косинус, tan(x: Double) -- тангенс, все три функции считают, что `x` задан в радианах;
