@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -94,7 +95,6 @@ fun timeForHalfWay(
         halfWay <= s1 -> halfWay / v1
         (halfWay > s1) && (halfWay <= s1 + s2) -> (halfWay - s1) / v2 + t1
         else -> (halfWay - s1 - s2) / v3 + t1 + t2
-
     }
 
     }
@@ -118,7 +118,13 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int =
+    when {
+        (kingX == rookX1) || (kingY == rookY1) && (kingX == rookX2) || (kingY == rookY2) -> 3
+        (kingX == rookX1) || (kingY == rookY1) -> 1
+        (kingX == rookX2) || (kingY == rookY2) -> 2
+        else -> 0
+    }
 
 /**
  * Простая
@@ -134,7 +140,13 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int =
+    when {
+        (kingX == rookX) || (kingY == rookY) && (bishopX + bishopY == kingX + kingY) || (bishopX - bishopY == kingX -kingY) -> 3
+        (kingX == rookX) || (kingY == rookY) -> 1
+        (bishopX + bishopY == kingX + kingY) || (bishopX - bishopY == kingX -kingY) -> 2
+        else -> 0
+    }
 
 /**
  * Простая
@@ -144,7 +156,20 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a + b > c) && (a + c > b) && (b + c > a)) {
+        val cosA = (c * c + b * b - a * a) / (2.0 * c * b)
+        val cosB = (c * c + a * a - b * b) / (2.0 * c * a)
+        val cosC = (a * a + b * b - c * c) / (2.0 * a * b)
+        return when {
+            (cosA > 0) && (cosB > 0) && (cosC > 0) -> 0
+            (cosA == 0.0) || (cosB == 0.0) || (cosC == 0.0) -> 1
+            else -> 2
+        }
+    }
+return -1
+}
+
 
 /**
  * Средняя
@@ -154,4 +179,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (!((c > b) || (a > d))) {
+       return kotlin.math.min(d, b) - kotlin.math.max(a, c)
+    }
+    return -1
+}
+
