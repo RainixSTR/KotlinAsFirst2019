@@ -19,10 +19,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    return when {
-        number / 1000 + number / 100 % 10 == number / 10 % 10 + number % 10 -> true
-        else -> false
-    }
+    return (number / 1000 + number / 100 % 10) == (number / 10 % 10 + number % 10)
 }
 
 /**
@@ -35,7 +32,7 @@ fun isNumberHappy(number: Int): Boolean {
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     return when {
         (x1 == x2) || (y1 == y2) -> true
-        (x1 + y1 == x2 + y2) || (x1 - y1 == x2 -y2) -> true
+        (x1 + y1 == x2 + y2) || (x1 - y1 == x2 - y2) -> true
         else -> false
     }
 }
@@ -48,22 +45,18 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
-    if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 ==0)) {
+    if (month == 2) {
         return when {
-            month == 2 -> 29
-            (month in 1..7) && (month % 2 != 0) -> 31
-            (month in 8..12) && (month % 2 == 0) -> 31
-            else -> 30
+            ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) -> 29
+            else -> 28
         }
     }
         return when {
-            month == 2 -> 28
             (month in 1..7) && (month % 2 != 0) -> 31
             (month in 8..12) && (month % 2 == 0) -> 31
             else -> 30
         }
 }
-
 /**
  * Средняя
  *
@@ -86,10 +79,8 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return when {
-        ((a <= r) && (b <= s)) || ((b <= r) && (a <= s)) -> true
-        ((a <= r) && (c <= s)) || ((c <= r) && (a <= s)) -> true
-        ((b <= r) && (c <= s)) || ((c <= r) && (b <= s)) -> true
-        else -> false
-    }
+    val min = minOf(a, b, c)
+    val mid = (a * b * c) / min / maxOf(a, b, c)
+    return ((min <= r) && (mid <= s)) || ((mid <= r) && (min <= s))
 }
+

@@ -71,9 +71,6 @@ fun ageDescription(age: Int): String =
         age % 10 == 1 -> "$age год"
         age % 10 >= 5 -> "$age лет"
         else -> "$age года"
-
-
-
 }
 
 /**
@@ -99,12 +96,6 @@ fun timeForHalfWay(
     }
 
     }
-
-
-
-
-
-
 
 /**
  * Простая
@@ -142,16 +133,19 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int =
-    when {
-        ((kingX == rookX) || (kingY == rookY)) && ((bishopX + bishopY == kingX + kingY) || (bishopX - bishopY == kingX - kingY)) -> 3
-        (kingX == rookX) || (kingY == rookY) -> 1
-        (bishopX + bishopY == kingX + kingY) || (bishopX - bishopY == kingX - kingY) -> 2
+): Int {
+    val rook = (rookX == kingX || rookY == kingY)
+    val bishop = (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
+    return when {
+        rook && bishop -> 3
+        rook && !(bishop) -> 1
+        !(rook) && bishop -> 2
         else -> 0
     }
-
+}
 /**
  * Простая
+ *
  *
  * Треугольник задан длинами своих сторон a, b, c.
  * Проверить, является ли данный треугольник остроугольным (вернуть 0),
@@ -159,7 +153,7 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a + b > c) && (a + c > b) && (b + c > a)) {
+    if ((maxOf(a, b, c) * 2) < (a + b + c)) {
         val cosA = (c * c + b * b - a * a) / (2.0 * c * b)
         val cosB = (c * c + a * a - b * b) / (2.0 * c * a)
         val cosC = (a * a + b * b - c * c) / (2.0 * a * b)
@@ -181,10 +175,6 @@ return -1
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (!((c > b) || (a > d))) {
-       return kotlin.math.min(d, b) - kotlin.math.max(a, c)
-    }
-    return -1
-}
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = max(-1, kotlin.math.min(b, d) - max(a, c))
+
 
