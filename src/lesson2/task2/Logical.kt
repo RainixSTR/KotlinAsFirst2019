@@ -3,6 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson1.task1.trackLength
 
 /**
  * Пример
@@ -49,12 +50,13 @@ fun daysInMonth(month: Int, year: Int): Int {
             else -> 28
         }
     }
-        return when {
-            (month in 1..7) && (month % 2 != 0) -> 31
-            (month in 8..12) && (month % 2 == 0) -> 31
-            else -> 30
-        }
+    return when {
+        (month in 1..7) && (month % 2 != 0) -> 31
+        (month in 8..12) && (month % 2 == 0) -> 31
+        else -> 30
+    }
 }
+
 /**
  * Средняя
  *
@@ -65,7 +67,7 @@ fun daysInMonth(month: Int, year: Int): Int {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = kotlin.math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2
+): Boolean = (trackLength(x1, y1, x2, y2) + r1 <= r2)
 
 /**
  * Средняя

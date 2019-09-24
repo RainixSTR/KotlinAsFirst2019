@@ -2,7 +2,16 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
+import java.lang.Double.isNaN
+import java.math.RoundingMode
+import javax.annotation.processing.RoundEnvironment
 import kotlin.math.sqrt
+import kotlin.math.truncate
+import kotlin.math.pow
+import kotlin.math.abs
+import kotlin.math.PI
+
 
 /**
  * Пример
@@ -12,7 +21,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -67,7 +76,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
+    do {
+        count++
+        number /= 10
+    } while (number > 0)
+    return count
+
+}
 
 /**
  * Простая
@@ -75,7 +93,16 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var number = 1
+    var number2 = 0
+    for (count in 2..n) {
+        if (n < 3) break
+        number += number2
+        number2 = number - number2
+    }
+    return number
+}
 
 /**
  * Простая
@@ -83,21 +110,38 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun gcd(m: Int, n: Int): Int {
+    var digitN = n
+    var digitM = m
+    while ((digitM != 0) && (digitN != 0)) {
+        if (digitM > digitN)
+            digitM %= digitN
+        else digitN %= digitM
+    }
+    return (digitN + digitM)
+}
+
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
+
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
+        if (n % i == 0) return i
+    }
+    return n
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -106,7 +150,7 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -115,7 +159,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean = truncate(sqrt(n.toDouble())).pow(2) >= m
 
 /**
  * Средняя
@@ -133,7 +177,16 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var digit = x
+    var count = 0
+    while (digit != 1) {
+        if (digit % 2 == 0) digit /= 2 else digit = digit * 3 + 1
+        count++
+        }
+    return (count)
+}
+
 
 /**
  * Средняя
@@ -144,7 +197,26 @@ fun collatzSteps(x: Int): Int = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var sin = x //значение синуса
+    var secondX = x // первоначальный синус в нечетной степени
+    var count = 1 // счетчик
+    var member = x // следующее число в последовательности
+    var factorialDegree = 1.0 // факториал для каждого нового члена последовательности
+    var minus = 1 // определение следующего знака в последовательности
+        while (abs(member) >= eps) { // проверяем условие задания
+            count++ // увеличиваем счетчик
+            secondX *= sqr(x) // увеличиваем число в знаменателе для каждого последующего члена на квадрат начального х
+            minus *= -1 // чередуем знак
+            factorialDegree *= (2 * count - 2) * (2 * count - 1) // вычисляем факториал
+            member = minus * secondX / factorialDegree // вычисляем следующий член последоательности
+            sin += member // вычисляем следующий синус
+        }
+        if (isNaN (sin)) sin = 0.0 // если синус по итогу NaN - присвой 0.0
+        return (sin)// по окончании цикла вернуть синус
+}
+// Комментарии к данной задачи написаны для собственного понимания
+
 
 /**
  * Средняя
@@ -155,7 +227,24 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var cos = 1.0
+    var secondX = 1.0
+    var count = 1
+    var member = x
+    var factorialDegree = 1.0
+    var minus = 1
+    while (abs(member) >= eps) {
+        count++
+        secondX *= sqr(x)
+        minus *= -1
+        factorialDegree *= (2 * count - 2) * (2 * count - 3)
+        member = minus * secondX / factorialDegree
+        cos += member
+    }
+    if (isNaN (cos)) cos = 1.0
+    return (cos)
+}
 
 /**
  * Средняя
@@ -164,7 +253,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var reverse = 0
+    var revertCopy = n
+    while (revertCopy > 0) {
+        reverse = reverse * 10 + revertCopy % 10
+        revertCopy /= 10
+    }
+    return reverse
+}
 
 /**
  * Средняя
@@ -175,7 +272,7 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
@@ -185,7 +282,15 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    val digitLast = n % 10
+    var digitN = n / 10
+    while (digitN > 0) {
+        if (digitLast != digitN % 10) return true
+        digitN /= 10
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -196,7 +301,26 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var count = 1
+    var quantitiNumber = 1
+    var digit = 1
+    var digitClone = 1
+    while (n > quantitiNumber) {
+        count++
+        digit = sqr(count)
+        digitClone = digit
+        while (digit != 0) {
+            digit /= 10
+            quantitiNumber += 1
+        }
+    }
+    while (n != quantitiNumber) {
+        quantitiNumber -= 1
+        digitClone /= 10
+    }
+    return (digitClone % 10)
+}
 
 /**
  * Сложная
@@ -207,4 +331,23 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var count = 1
+    var quantitiNumber = 1
+    var digit = 1
+    var digitClone = 1
+    while (n > quantitiNumber) {
+        count++
+        digit = fib(count)
+        digitClone = digit
+        while (digit != 0) {
+            digit /= 10
+            quantitiNumber += 1
+        }
+    }
+    while (n != quantitiNumber) {
+        quantitiNumber -= 1
+        digitClone /= 10
+    }
+    return (digitClone % 10)
+}

@@ -94,8 +94,7 @@ fun timeForHalfWay(
         (halfWay > s1) && (halfWay <= s1 + s2) -> (halfWay - s1) / v2 + t1
         else -> (halfWay - s1 - s2) / v3 + t1 + t2
     }
-
-    }
+}
 
 /**
  * Простая
@@ -110,14 +109,12 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int {
-    return when {
+): Int = when {
         ((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2)) -> 3
         (kingX == rookX1) || (kingY == rookY1) -> 1
         (kingX == rookX2) || (kingY == rookY2) -> 2
         else -> 0
     }
-}
 
 /**
  * Простая
@@ -163,7 +160,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
             else -> 2
         }
     }
-return -1
+    return -1
 }
 
 
