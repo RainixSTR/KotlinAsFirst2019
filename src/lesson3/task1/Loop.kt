@@ -6,10 +6,7 @@ import lesson1.task1.sqr
 import java.lang.Double.isNaN
 import java.math.RoundingMode
 import javax.annotation.processing.RoundEnvironment
-import kotlin.math.sqrt
-import kotlin.math.truncate
-import kotlin.math.pow
-import kotlin.math.abs
+import kotlin.math.*
 
 
 /**
@@ -77,11 +74,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var count = 0
-    var number = n
+    var number = abs(n)
     do {
         count++
         number /= 10
-    } while (abs(number) > 0)
+    } while (number > 0)
     return count
 
 }
@@ -182,7 +179,7 @@ fun collatzSteps(x: Int): Int {
     while (digit != 1) {
         if (digit % 2 == 0) digit /= 2 else digit = digit * 3 + 1
         count++
-        }
+    }
     return (count)
 }
 
@@ -197,22 +194,23 @@ fun collatzSteps(x: Int): Int {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double {
-    var sin = x //значение синуса
-    var secondX = x // первоначальный синус в нечетной степени
+    var sin = abs(x) //значение синуса
     var count = 1 // счетчик
-    var member = x // следующее число в последовательности
     var factorialDegree = 1.0 // факториал для каждого нового члена последовательности
     var minus = 1 // определение следующего знака в последовательности
-        while (abs(member) >= eps) { // проверяем условие задания
-            count++ // увеличиваем счетчик
-            secondX *= sqr(x) // увеличиваем число в знаменателе для каждого последующего члена на квадрат начального х
-            minus *= -1 // чередуем знак
-            factorialDegree *= (2 * count - 2) * (2 * count - 1) // вычисляем факториал
-            member = minus * secondX / factorialDegree // вычисляем следующий член последоательности
-            sin += member // вычисляем следующий синус
-        }
-        if (isNaN (sin)) sin = 0.0 // если синус по итогу NaN - присвой 0.0
-        return (sin)// по окончании цикла вернуть синус
+    while (sin > 2.0 * PI) sin -= 2.0 * PI
+    if (x < 0) sin *= -1
+    var member = sin // следующее число в последовательности
+    var secondX = sin // первоначальный синус в нечетной степени
+    while (abs(member) >= eps) { // проверяем условие задания
+        count++ // увеличиваем счетчик
+        secondX *= sqr(sin) // увеличиваем число в знаменателе для каждого последующего члена на квадрат начального х
+        minus *= -1 // чередуем знак
+        factorialDegree *= (2 * count - 2) * (2 * count - 1) // вычисляем факториал
+        member = minus * secondX / factorialDegree // вычисляем следующий член последоательности
+        sin += member // вычисляем следующий синус
+    }
+    return (sin)// по окончании цикла вернуть синус
 }
 // Комментарии к данной задачи написаны для собственного понимания
 
@@ -309,10 +307,7 @@ fun squareSequenceDigit(n: Int): Int {
         count++
         digit = sqr(count)
         digitClone = digit
-        while (digit != 0) {
-            digit /= 10
-            quantitiNumber += 1
-        }
+        quantitiNumber += digitNumber(digit)
     }
     while (n != quantitiNumber) {
         quantitiNumber -= 1
@@ -339,10 +334,7 @@ fun fibSequenceDigit(n: Int): Int {
         count++
         digit = fib(count)
         digitClone = digit
-        while (digit != 0) {
-            digit /= 10
-            quantitiNumber += 1
-        }
+        quantitiNumber += digitNumber(digit)
     }
     while (n != quantitiNumber) {
         quantitiNumber -= 1
