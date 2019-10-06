@@ -194,25 +194,27 @@ fun collatzSteps(x: Int): Int {
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
 fun sin(x: Double, eps: Double): Double {
-    var sin = abs(x) //значение синуса
-    var count = 1 // счетчик
-    var factorialDegree = 1.0 // факториал для каждого нового члена последовательности
-    var minus = 1 // определение следующего знака в последовательности
-    while (sin > 2.0 * PI) sin -= 2.0 * PI
+    var res = 0.0
+    var sin = x
+    while (sin > 2 * PI) sin -= 2 * PI
     if (x < 0) sin *= -1
-    var member = sin // следующее число в последовательности
-    var secondX = sin // первоначальный синус в нечетной степени
-    while (abs(member) >= eps) { // проверяем условие задания
-        count++ // увеличиваем счетчик
-        secondX *= sqr(sin) // увеличиваем число в знаменателе для каждого последующего члена на квадрат начального х
-        minus *= -1 // чередуем знак
-        factorialDegree *= (2 * count - 2) * (2 * count - 1) // вычисляем факториал
-        member = minus * secondX / factorialDegree // вычисляем следующий член последоательности
-        sin += member // вычисляем следующий синус
+    var count = 1
+    var factorialDegree = 1.0
+    var minus = 1
+    var member = sin
+    var secondX = sin
+    var constantX = sqr(sin)
+    while (abs(member) >= eps) {
+        res += minus * member
+        count += 2
+        secondX *= constantX
+        minus *= -1
+        factorialDegree *= count * (count - 1)
+        member = secondX / factorialDegree
     }
-    return (sin)// по окончании цикла вернуть синус
+    return (res)
 }
-// Комментарии к данной задачи написаны для собственного понимания
+
 
 
 /**
@@ -225,22 +227,25 @@ fun sin(x: Double, eps: Double): Double {
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
 fun cos(x: Double, eps: Double): Double {
-    var cos = 1.0
-    var secondX = 1.0
-    var count = 1
-    var member = x
+    var res = 0.0
+    var cos = x
+    while (cos > 2 * PI) cos -= 2 * PI
+    if (x < 0) cos *= -1
+    var count = 0
     var factorialDegree = 1.0
     var minus = 1
+    var member = 1.0
+    var secondX = 1.0
+    var constantX = sqr(cos)
     while (abs(member) >= eps) {
-        count++
-        secondX *= sqr(x)
+        res += minus * member
+        count += 2
+        secondX *= constantX
         minus *= -1
-        factorialDegree *= (2 * count - 2) * (2 * count - 3)
-        member = minus * secondX / factorialDegree
-        cos += member
+        factorialDegree *= count * (count - 1)
+        member = secondX / factorialDegree
     }
-    if (isNaN (cos)) cos = 1.0
-    return (cos)
+    return (res)
 }
 
 /**
