@@ -4,6 +4,7 @@ package lesson2.task2
 
 import lesson1.task1.sqr
 import lesson1.task1.trackLength
+import lesson4.task1.abs
 
 /**
  * Пример

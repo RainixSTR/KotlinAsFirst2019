@@ -195,8 +195,7 @@ fun collatzSteps(x: Int): Int {
  */
 fun sin(x: Double, eps: Double): Double {
     var res = 0.0
-    var sin = x
-    while (sin > 2 * PI) sin -= 2 * PI
+    var sin = x % (2 * PI)
     if (x < 0) sin *= -1
     var count = 1
     var factorialDegree = 1.0
@@ -228,8 +227,7 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var res = 0.0
-    var cos = x
-    while (cos > 2 * PI) cos -= 2 * PI
+    var cos = x % (2 * PI)
     if (x < 0) cos *= -1
     var count = 0
     var factorialDegree = 1.0
