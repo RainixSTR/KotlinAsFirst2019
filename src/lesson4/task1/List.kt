@@ -207,7 +207,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     var divider = 2
     var digit = n
     while (digit != 1) {
@@ -236,8 +236,21 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
-
+fun convert(n: Int, base: Int): List<Int> {
+    var number = n
+    val result = mutableListOf<Int>()
+    when {
+        n > base -> {
+            while (number > base) {
+                result.add(number % base)
+                number /= base
+            }
+            result.add(number)
+        }
+        n < base -> result.add(number)
+    }
+    return result.reversed()
+}
 /**
  * Сложная
  *
