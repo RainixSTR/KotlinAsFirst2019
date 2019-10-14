@@ -197,8 +197,8 @@ fun sin(x: Double, eps: Double): Double {
     var res = 0.0
     var sin = x % (2 * PI)
     if (x < 0) sin *= -1
-    var count = 1
     var factorialDegree = 1.0
+    var count = 1
     var minus = 1
     var member = sin
     var secondX = sin
