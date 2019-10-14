@@ -202,7 +202,7 @@ fun sin(x: Double, eps: Double): Double {
     var minus = 1
     var member = sin
     var secondX = sin
-    var constantX = sqr(sin)
+    val constantX = sqr(sin)
     while (abs(member) >= eps) {
         res += minus * member
         count += 2
@@ -234,7 +234,7 @@ fun cos(x: Double, eps: Double): Double {
     var minus = 1
     var member = 1.0
     var secondX = 1.0
-    var constantX = sqr(cos)
+    val constantX = sqr(cos)
     while (abs(member) >= eps) {
         res += minus * member
         count += 2
