@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import java.io.File.separator
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -292,7 +293,12 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val digit = mutableListOf<Int>()
+    val alphabet = "abcdifghijklmnopqrstuvwxyz"
+    for (char in str) digit.add(if (char in alphabet) (char + 9).toInt() else char.toInt())
+    return decimal(digit, base)
+}
 
 /**
  * Сложная
@@ -302,7 +308,65 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val digitRoman = mutableListOf<String>()
+    var digit = n
+    while (digit > 0) {
+        while (digit >= 1000) {
+            digitRoman.add("M")
+            digit -= 1000
+        }
+        while (digit >= 900) {
+            digitRoman.add("CM")
+            digit -= 900
+        }
+        while (digit >= 500) {
+            digitRoman.add("D")
+            digit -= 500
+        }
+        while (digit >= 400) {
+            digitRoman.add("CD")
+            digit -= 400
+        }
+        while (digit >= 100) {
+            digitRoman.add("C")
+            digit -= 100
+        }
+        while (digit >= 90) {
+            digitRoman.add("XC")
+            digit -= 90
+        }
+        while (digit >= 50) {
+            digitRoman.add("L")
+            digit -= 50
+        }
+        while (digit >= 40) {
+            digitRoman.add("XL")
+            digit -= 40
+        }
+        while (digit >= 10) {
+            digitRoman.add("X")
+            digit -= 10
+        }
+        while (digit >= 9) {
+            digitRoman.add("IX")
+            digit -= 9
+        }
+        while (digit >= 5) {
+            digitRoman.add("V")
+            digit -= 5
+        }
+        while (digit >= 4) {
+            digitRoman.add("IV")
+            digit -= 4
+        }
+        while (digit > 0) {
+            digitRoman.add("I")
+            digit -= 1
+        }
+    }
+    return digitRoman.joinToString(separator = "")
+}
 
 /**
  * Очень сложная
