@@ -141,8 +141,7 @@ fun mean(list: List<Double>): Double = if (list.isEmpty())  0.0
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val averageList = mean(list)
-    if (list.isEmpty()) 0.0
-    else for (i in 0 until list.size) list[i] -= averageList
+    for (i in 0 until list.size) list[i] -= averageList
     return list
 }
 
@@ -155,8 +154,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Int>, b: List<Int>): Int {
     var result = 0
-    if (a.isEmpty() && b.isEmpty()) 0
-    else for (i in 0 until a.size) result += a[i] * b[i]
+    for (i in 0 until a.size) result += a[i] * b[i]
     return result
 }
 
@@ -191,11 +189,8 @@ fun polynom(p: List<Int>, x: Int): Int {
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
     if (list.size != 0) {
         var sum = list[0]
-        for (i in 1 until list.size) {
-            sum += list[i]
-            list[i] = sum
+        for (i in 1 until list.size) list[i] = list[i - 1] + list[i]
         }
-    }
     return list
 }
 
@@ -239,17 +234,11 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
     val result = mutableListOf<Int>()
-    when {
-        n > base -> {
-            while (number > base) {
-                result.add(number % base)
-                number /= base
-            }
-            result.add(number)
-        }
-        n < base -> result.add(number)
-    }
-    return result.reversed()
+    do {
+        result.add(0, number % base)
+        number /= base
+    } while (number > 0)
+    return result
 }
 /**
  * Сложная
@@ -262,7 +251,12 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val alphabet = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+        "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+    val result = convert(n, base)
+    return result.joinToString( separator = "", transform = {if (it < 10) "$it" else alphabet[it - 10]})
+}
 
 /**
  * Средняя
@@ -271,7 +265,20 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var sum = 0
+    var degree = 1
+    var count = digits.size
+    while (count > 1) {
+        degree *= base
+        count--
+    }
+    for (i in 0 until digits.size) {
+        sum += digits[i] * degree
+        degree /= base
+    }
+    return sum
+}
 
 /**
  * Сложная
