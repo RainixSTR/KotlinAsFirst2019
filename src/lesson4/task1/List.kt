@@ -422,8 +422,8 @@ fun russian(n: Int): String {
             }
         }
         when {
-            (number % 10 == 1) && (number / 100 / 10 == 0) -> wordfirst.add("тысяча")
-            number % 10 in 1..4 -> wordfirst.add("тысячи")
+            (number % 10 == 1) && (number % 100 / 10 == 0) -> wordfirst.add("тысяча")
+            (number % 10 in 2..4) && (number % 100 / 10 != 1) -> wordfirst.add("тысячи")
             else -> wordfirst.add("тысяч")
         }
     }
