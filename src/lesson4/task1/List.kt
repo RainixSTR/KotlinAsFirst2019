@@ -410,19 +410,19 @@ fun russian(n: Int): String {
             if (number / 10 % 10 > 0) {
                 wordfirst.add(decades[number / 10 % 10 - 1])
                 if (number % 10 > 0) {
-                    if (number % 10 == 1) wordfirst.add("одна")
-                    if (number % 10 == 2) wordfirst.add("две")
-                    else wordfirst.add(units[number % 10 - 1])
+                    wordfirst.add(units[number % 10 - 1])
+                    if (number % 10 == 1) wordfirst[wordfirst.size - 1] = "одна"
+                    if (number % 10 == 2) wordfirst[wordfirst.size - 1] = "две"
                 }
             }
             else if (number % 10 > 0) {
-                if (number % 10 == 1) wordfirst.add("одна")
-                if (number % 10 == 2) wordfirst.add("две")
-                else wordfirst.add(units[number % 10 - 1])
+                wordfirst.add(units[number % 10 - 1])
+                if (number % 10 == 1) wordfirst[wordfirst.size - 1] = "одна"
+                if (number % 10 == 2) wordfirst[wordfirst.size - 1] = "две"
             }
         }
         when {
-            (number % 10 == 1) && (number / 100 % 10 == 0) -> wordfirst.add("тысяча")
+            (number % 10 == 1) && (number / 100 / 10 == 0) -> wordfirst.add("тысяча")
             number % 10 in 1..4 -> wordfirst.add("тысячи")
             else -> wordfirst.add("тысяч")
         }
