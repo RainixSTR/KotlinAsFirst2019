@@ -195,7 +195,7 @@ fun collatzSteps(x: Int): Int {
  */
 fun sin(x: Double, eps: Double): Double {
     var res = 0.0
-    var sin = x % (2 * PI)
+    val sin = x % (2 * PI)
     var factorialDegree = 1.0
     var count = 1
     var minus = 1

@@ -188,10 +188,7 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    if (list.size != 0) {
-        var sum = list[0]
-        for (i in 1 until list.size) list[i] = list[i - 1] + list[i]
-        }
+    for (i in 1 until list.size) list[i] = list[i - 1] + list[i]
     return list
 }
 
@@ -295,9 +292,10 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val digit = mutableListOf<Int>()
-    val alphabet = "abcdifghijklmnopqrstuvwxyz"
-    for (char in str) digit.add(if (char in alphabet) (char + 9).toInt() else char.toInt())
+    val alphabet = "abcdefghijklmnopqrstuvwxyz"
+    for (char in str) digit.add(if (char in alphabet) (char - 'a' + 10) else char.toString().toInt())
     return decimal(digit, base)
+
 }
 
 /**
@@ -375,4 +373,59 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var wordfirst = mutableListOf<String>()
+    var wordlast = mutableListOf<String>()
+    var number = n % 1000
+    val units = listOf(
+        "один", "два", "три",
+        "четыре", "пять", "шесть",
+        "семь", "восемь", "девять")
+    val figures = listOf(
+        "одиннадцать", "двенадцать", "тринадцать",
+        "четырнадцать", "пятнадцать", "шестнадцать",
+        "семнадцать", "восемнадцать", "девятнадцать")
+    val decades = listOf(
+        "десять", "двадцать", "тридцать",
+        "сорок", "пятьдесят", "шестьдесят",
+        "семьдесят", "восемьдесят", "девяносто")
+    val hundreds = listOf(
+        "сто", "двести", "триста",
+        "четыреста", "пятьсот", "шестьсот",
+        "семьсот", "восемьсот", "девятьсот")
+    if (number / 100 > 0) wordlast.add(hundreds[number / 100 - 1])
+    if (number % 100 in 11..19) wordlast.add(figures[number % 100 % 10 - 1])
+    else {
+        if (number / 10 % 10 > 0) {
+            wordlast.add(decades[number / 10 % 10 - 1])
+            if (number % 10 > 0) wordlast.add(units[number % 10 - 1])
+        }
+        else if (number % 10 > 0) wordlast.add(units[number % 10 - 1])
+    }
+    if (n > 1000) {
+        number = n / 1000
+        if (number / 100 > 0) wordfirst.add(hundreds[number / 100 - 1])
+        if (number % 100 in 11..19) wordfirst.add(figures[number % 100 % 10 - 1])
+        else {
+            if (number / 10 % 10 > 0) {
+                wordfirst.add(decades[number / 10 % 10 - 1])
+                if (number % 10 > 0) {
+                    if (number % 10 == 1) wordfirst.add("одна")
+                    if (number % 10 == 2) wordfirst.add("две")
+                    else wordfirst.add(units[number % 10 - 1])
+                }
+            }
+            else if (number % 10 > 0) {
+                if (number % 10 == 1) wordfirst.add("одна")
+                if (number % 10 == 2) wordfirst.add("две")
+                else wordfirst.add(units[number % 10 - 1])
+            }
+        }
+        when {
+            (number % 10 == 1) && (number / 100 % 10 == 0) -> wordfirst.add("тысяча")
+            number % 10 in 1..4 -> wordfirst.add("тысячи")
+            else -> wordfirst.add("тысяч")
+        }
+    }
+    return ((wordfirst + wordlast).joinToString(separator = " "))
+}
