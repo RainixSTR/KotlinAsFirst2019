@@ -374,8 +374,8 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var wordfirst = mutableListOf<String>()
-    var wordlast = mutableListOf<String>()
+    val wordfirst = mutableListOf<String>()
+    val wordlast = mutableListOf<String>()
     var number = n % 1000
     val units = listOf(
         "один", "два", "три",
