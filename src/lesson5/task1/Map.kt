@@ -2,7 +2,6 @@
 
 package lesson5.task1
 
-
 /**
  * Пример
  *
@@ -243,10 +242,11 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val list = mutableListOf<Char>()
+    val charsLower = chars.toString()
     for (char in word)
         if (char !in list) list.add(char)
     for (char in list)
-        if (char !in chars) return false
+        if (char.toLowerCase() !in charsLower.toLowerCase()) return false
     return true
 }
 
