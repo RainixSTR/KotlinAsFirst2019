@@ -238,12 +238,11 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val list = mutableListOf<Char>()
-    val charsLower = chars.toString().filter { it != ' ' && it != ','}
-    for (char in word)
-        if (char !in list) list.add(char)
-    for (char in list)
-        if (char.toLowerCase() !in charsLower.toLowerCase()) return false
+    var listWord = String()
+    for (char in chars)
+        if (char !in listWord) listWord += char
+    for (char in word.toLowerCase())
+        if (char !in listWord.toLowerCase()) return false
     return true
 }
 
