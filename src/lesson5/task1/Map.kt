@@ -213,7 +213,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    var name = ""
+    var name: String? = null
     var lowestPrice = -1.0
     for ((nameProduct, properties) in stuff) {
         if ((kind == properties.first) && (lowestPrice == -1.0)) {
@@ -225,10 +225,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
             name = nameProduct
         }
     }
-    return if (name == "")
-        null
-    else
-        name
+    return name
 }
 
 /**
@@ -242,7 +239,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val list = mutableListOf<Char>()
-    val charsLower = chars.toString().filter { it != ' ' }
+    val charsLower = chars.toString().filter { it != ' ' && it != ','}
     for (char in word)
         if (char !in list) list.add(char)
     for (char in list)
@@ -262,7 +259,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> {
+fun  extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
     for (char in list)
         if (char !in result) result[char] =  1
