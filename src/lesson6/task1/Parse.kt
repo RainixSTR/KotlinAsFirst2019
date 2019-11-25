@@ -81,11 +81,11 @@ fun dateStrToDigit(str: String): String {
         "октября", "ноября", "декабря")
     if (parts.size != 3) return ""
     else {
-        val day = parts[0].toInt()
+        val day = parts[0].toIntOrNull()
         if (parts[1] !in months) return ""
         else month = months.indexOf(parts[1]) + 1
-        val year = parts[2].toInt()
-        return if ((day < 1) || (day > daysInMonth(month, year)))
+        val year = parts[2].toIntOrNull()
+        return if ((day == null) || (year == null) || (day < 1) || (day > daysInMonth(month, year)))
             ""
         else
             String.format("%02d.%02d.%d", day, month, year)
@@ -115,7 +115,7 @@ fun dateDigitToStr(digital: String): String {
         val month = parts[1].toIntOrNull()
         val year = parts[2].toIntOrNull()
         if ((day == null) || (month == null) || (year == null) ||
-            (day > daysInMonth(month, year)) || (month < 1))
+            (day > daysInMonth(month, year)) || (month < 1) || (month > 12))
             ""
         else
             String.format("%d %s %d", day, months[month - 1], year)
@@ -203,7 +203,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (!Regex("""^\d$|(\d+\s[-+]\s\d+$)""").containsMatchIn(expression)) throw IllegalArgumentException()
+    if (!Regex("""^\d+$|(\d+\s[-+]\s\d+$)""").containsMatchIn(expression)) throw IllegalArgumentException()
     else {
         val parts = expression.split(" ")
         var result = 0
@@ -234,7 +234,7 @@ fun firstDuplicateIndex(str: String): Int {
     val parts = str.split(" ")
     var index = 0
     if (parts.size != 1) {
-        for (i in 0 until parts.size)
+        for (i in 0 until parts.size - 1)
             if (parts[i].toLowerCase() == parts[i + 1].toLowerCase()) return index
             else index += parts[i].length + 1
     }
