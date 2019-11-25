@@ -114,7 +114,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for ((key) in a)
-        if ((key !in b) || (a[key] != b[key])) return false
+        if (a[key] != b[key]) return false
     return true
 }
 /**
@@ -186,7 +186,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val map = mutableMapOf<String, MutableList<Double>>()
     val stockPrice = mutableMapOf<String, Double>()
     for (stock in stockPrices)
-        if (stock.first !in map) map.put(stock.first, mutableListOf(stock.second))
+        if (stock.first !in map) map[stock.first] = mutableListOf(stock.second)
         else map[stock.first]!!.add(stock.second)
     for ((stock, price) in map)
         stockPrice[stock] = price.sum() / price.size
@@ -265,23 +265,26 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean {
+fun hasAnagrams(words: List<String>): Boolean = TODO()/*{
+    val setOfWords = mutableSetOf<Map<Char, Int>>()
     for (word in words.indices) {
-        val mapA = mutableMapOf<Char, Int>()
-        for (char in words[word])
-            if (char !in mapA) mapA[char] =  1
-            else mapA[char] = mapA[char]!! + 1
-        for (wordNext in word + 1 until words.size) {
-            val mapB = mutableMapOf<Char, Int>()
-            for (char in words[wordNext])
-                if (char !in mapB) mapB[char] = 1
-                else mapB[char] = mapB[char]!! + 1
-            if ((setOf(mapA) == setOf(mapB)) && (mapA.size == mapB.size)) return true
+        val mapWord = mutableMapOf<Char, Int>()
+        for (char in words[word]) {
+            if (char !in mapWord) mapWord[char] = 1
+            else mapWord[char] = mapWord[char]!! + 1
+            setOfWords += mapWord
         }
+    }
+    for (i in setOfWords.indices) {
+        val mapA = setOfWords
+        for (j in i until setOfWords.size)
+        val mapB = setOfWords[j]
+        if ((setOf(mapA) == setOf(mapB)) && (mapA.size == mapB.size)
+            return true
     }
     return false
 }
-
+*/
 /**
  * Сложная
  *
