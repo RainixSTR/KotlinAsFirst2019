@@ -260,7 +260,6 @@ fun mostExpensive(description: String): String {
     for (i in listGoods) {
         val parts = i.split(" ")
         if (parts.size != 2) return ""
-        else
         if ((parts[1].toDouble() > mostExpensivePrice)) {
             mostExpensivePrice = parts[1].toDouble()
             mostExpensiveName = parts[0]
