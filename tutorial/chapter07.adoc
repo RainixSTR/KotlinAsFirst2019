@@ -40,6 +40,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
             }
         }
         for (word in line.split(Regex("\\s+"))) {
+
             if (currentLineLength > 0) {
                 if (word.length + currentLineLength >= lineLength) {
                     writer.newLine()
