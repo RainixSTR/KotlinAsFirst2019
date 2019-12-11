@@ -73,12 +73,13 @@ fun main() {
  */
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    val month:  Int
+    val month: Int
     val months = listOf(
         "января", "февраля", "марта",
         "апреля", "мая", "июня",
         "июля", "августа", "сентября",
-        "октября", "ноября", "декабря")
+        "октября", "ноября", "декабря"
+    )
     if (parts.size != 3) return ""
     else {
         val day = parts[0].toIntOrNull()
@@ -108,14 +109,16 @@ fun dateDigitToStr(digital: String): String {
         "января", "февраля", "марта",
         "апреля", "мая", "июня",
         "июля", "августа", "сентября",
-        "октября", "ноября", "декабря")
+        "октября", "ноября", "декабря"
+    )
     return if (parts.size != 3) ""
     else {
         val day = parts[0].toIntOrNull()
         val month = parts[1].toIntOrNull()
         val year = parts[2].toIntOrNull()
         if ((day == null) || (month == null) || (year == null) ||
-            (day > daysInMonth(month, year)) || (month < 1) || (month > 12))
+            (day > daysInMonth(month, year)) || (month < 1) || (month > 12)
+        )
             ""
         else
             String.format("%d %s %d", day, months[month - 1], year)
@@ -140,7 +143,7 @@ fun flattenPhoneNumber(phone: String): String =
     if (Regex("""[^-+()\d\s]|(\((\D)+\))|\(\)""").containsMatchIn(phone)) ""
     else (Regex("""[\s-()]""")).replace(phone, "")
 
- /**
+/**
  * Средняя
  *
  * Результаты спортсмена на соревнованиях в прыжках в длину представлены строкой вида
@@ -151,19 +154,19 @@ fun flattenPhoneNumber(phone: String): String =
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-     if (Regex("""[^\d\s-%]""").containsMatchIn(jumps)) return -1
-     return if (jumps == "") -1
-     else {
-         var longJump = -1
-         val parts = jumps.split(" ")
-         for (i in parts)
-             if (i.toIntOrNull() != null) {
-                 if (i.toInt() > longJump)
-                     longJump = i.toInt()
-             }
-         longJump
-     }
- }
+    if (Regex("""[^\d\s-%]""").containsMatchIn(jumps)) return -1
+    return if (jumps == "") -1
+    else {
+        var longJump = -1
+        val parts = jumps.split(" ")
+        for (i in parts)
+            if (i.toIntOrNull() != null) {
+                if (i.toInt() > longJump)
+                    longJump = i.toInt()
+            }
+        longJump
+    }
+}
 
 /**
  * Сложная
@@ -278,11 +281,11 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int = TODO()
-  /*  var result = 0
-    val digits = mapOf("I" to 1, "II" to 2, "III" to 3, "IV" to 4, "V" to 5, "VI" to 6, "VII" to 7, "VIII" to 8,
-        "IX" to 9, "X" to 10, "XX" to 20,  "XXX" to 30,  "XL" to 40,  "L" to 50,  "LX" to 60, "LXX" to 70,
-        "LXXX" to 80,  "XC" to 90,  "C" to 100,  "CC" to 200,  "CCC" to 300, "CD" to 400, "D" to 500,
-        "DC" to 600, "DCC" to 700, "DCCC" to 800, "CM" to 900, "M" to 1000)
+/*  var result = 0
+  val digits = mapOf("I" to 1, "II" to 2, "III" to 3, "IV" to 4, "V" to 5, "VI" to 6, "VII" to 7, "VIII" to 8,
+      "IX" to 9, "X" to 10, "XX" to 20,  "XXX" to 30,  "XL" to 40,  "L" to 50,  "LX" to 60, "LXX" to 70,
+      "LXXX" to 80,  "XC" to 90,  "C" to 100,  "CC" to 200,  "CCC" to 300, "CD" to 400, "D" to 500,
+      "DC" to 600, "DCC" to 700, "DCCC" to 800, "CM" to 900, "M" to 1000)
 
 } */
 
