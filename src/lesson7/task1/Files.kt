@@ -95,7 +95,7 @@ fun sibilants(inputName: String, outputName: String) {
         if (line.isEmpty()) writer.newLine()
         for (i in line.indices) {
             var subString = ""
-            if ((line[i] in listOfLetters) && (line[i + 1] in listOfWrongLetters) && (i + 1 <= line.length)) {
+            if ((line[i] in listOfLetters) && (i + 1 <= line.length) && (line[i + 1] in listOfWrongLetters)) {
                 length = 1
                 subString += line[i]
                 when (line[i + 1]) {
