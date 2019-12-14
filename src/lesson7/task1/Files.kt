@@ -57,15 +57,20 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val mapSubstrings = mutableMapOf<String, Int>()
     for (substring in substrings) {
         mapSubstrings[substring] = 0
-        for (line in File(inputName).readLines())
-            for (word in line.split(Regex("\\s+"))) {
-                val wordLower = word.toLowerCase()
-                if (substring.toLowerCase() in wordLower) mapSubstrings[substring]!! + 1
+        for (line in File(inputName).readLines()) {
+            val lowerSubstring = substring.toLowerCase()
+            val lowerLine = line.toLowerCase()
+            var currentIndex = 0
+            var foundIndex = lowerLine.indexOf(lowerSubstring, currentIndex)
+            while (foundIndex != -1) {
+                mapSubstrings[substring] = mapSubstrings[substring]!! + 1
+                currentIndex = foundIndex + 1
+                foundIndex = lowerLine.indexOf(lowerSubstring, currentIndex)
             }
+        }
     }
     return mapSubstrings
 }
-
 
 /**
  * Средняя
@@ -81,7 +86,38 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val listOfLetters = listOf('ж', 'ч', 'ш', 'щ', 'Ж', 'Ч', 'Ш', 'Щ')
+    val listOfWrongLetters = listOf('ы', 'я', 'ю', 'Ы', 'Я', 'Ю')
+    val listOfRightLetters = listOf('и', 'а', 'у', 'И', 'А', 'У')
+    var length = 0
+    val writer = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines()) {
+        if (line.isEmpty()) writer.newLine()
+        for (i in line.indices) {
+            var subString = ""
+            if ((line[i] in listOfLetters) && (line[i + 1] in listOfWrongLetters)) {
+                length = 1
+                subString += line[i]
+                when (line[i + 1]) {
+                    'ы' -> subString += 'и'
+                    'я' -> subString += 'а'
+                    'ю' -> subString += 'у'
+                    'Ы' -> subString += 'И'
+                    'Я' -> subString += 'А'
+                    'Ю' -> subString += 'У'
+                }
+            }
+            else {
+                if (length != 1) {
+                    subString += line[i]
+                }
+                else length = 0
+            }
+            writer.write(subString)
+        }
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
