@@ -282,7 +282,7 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int {
     var sizeRoman = roman.length
-    var result = -1
+    var result = 0
     var j = 0
     val digits = mapOf("I" to 1, "II" to 2, "III" to 3, "IV" to 4, "V" to 5, "VI" to 6, "VII" to 7, "VIII" to 8,
       "IX" to 9, "X" to 10, "XX" to 20,  "XXX" to 30,  "XL" to 40,  "L" to 50,  "LX" to 60, "LXX" to 70,
@@ -308,7 +308,8 @@ fun fromRoman(roman: String): Int {
             }
         }
     }
-    return (result)
+    return if (result == 0) -1
+    else result
 }
 
 /**
