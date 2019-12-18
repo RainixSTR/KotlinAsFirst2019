@@ -280,14 +280,36 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
-/*  var result = 0
-  val digits = mapOf("I" to 1, "II" to 2, "III" to 3, "IV" to 4, "V" to 5, "VI" to 6, "VII" to 7, "VIII" to 8,
+fun fromRoman(roman: String): Int {
+    var sizeRoman = roman.length
+    var result = 0
+    var j = 0
+    val digits = mapOf("I" to 1, "II" to 2, "III" to 3, "IV" to 4, "V" to 5, "VI" to 6, "VII" to 7, "VIII" to 8,
       "IX" to 9, "X" to 10, "XX" to 20,  "XXX" to 30,  "XL" to 40,  "L" to 50,  "LX" to 60, "LXX" to 70,
       "LXXX" to 80,  "XC" to 90,  "C" to 100,  "CC" to 200,  "CCC" to 300, "CD" to 400, "D" to 500,
       "DC" to 600, "DCC" to 700, "DCCC" to 800, "CM" to 900, "M" to 1000)
-
-} */
+    while (sizeRoman != 0) {
+        for (i in 0 until roman.length) {
+            if (j == i) {
+                var currentDigitString = roman[i].toString()
+                if (!digits.containsKey(currentDigitString)) return -1
+                if (roman.length == 1) return digits[currentDigitString] ?: error("")
+                if (j + 1 != roman.length) {
+                    while (digits.containsKey(roman[j] + roman[j + 1].toString())) {
+                        currentDigitString += roman[j + 1].toString()
+                        sizeRoman--
+                        j++
+                        if (j + 1 == roman.length) break
+                    }
+                }
+                result += digits[currentDigitString] ?: error("")
+                sizeRoman--
+                j++
+            }
+        }
+    }
+    return (result)
+}
 
 /**
  * Очень сложная
