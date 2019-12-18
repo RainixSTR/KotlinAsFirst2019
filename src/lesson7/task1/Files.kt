@@ -197,11 +197,9 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     for (line in File(inputName).readLines())
         if (maxLength < line.trim().length) maxLength = line.trim().length
-
     for (line in File(inputName).readLines()) {
         var newString = ""
         currentString = Regex("""\s{2,}""").replace(line, " ").trim()
-
         if ((currentString == " ") || (currentString.isEmpty())) writer.write(newString)
         else {
             val partsString = currentString.split(" ")
@@ -210,7 +208,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
             var partsNumber = 0
             var last = ""
             for (part in partsString) partsNumber += 1
-
             if (partsNumber > 1) {
                 partsNumber -= 1
                 last = partsString.last()
