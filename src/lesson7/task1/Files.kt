@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.floor
 
 /**
  * Пример
@@ -143,16 +144,15 @@ fun centerFile(inputName: String, outputName: String) {
         if (maxLength < line.trim().length) maxLength = line.trim().length
     for (line in File(inputName).readLines()) {
         var spaces: Int
-        val currentlyLength = line.trim().length
-        if ((maxLength - currentlyLength) % 2 == 0) {
-            spaces = (maxLength - currentlyLength) / 2
+        val currentLength = line.trim().length
+        if ((maxLength - currentLength) % 2 == 0) {
+            spaces = (maxLength - currentLength) / 2
             while (spaces != 0) {
                 writer.write(" ")
                 spaces -= 1
             }
-        }
-        else {
-            spaces = (maxLength - currentlyLength - 1) / 2
+        } else {
+            spaces = (maxLength - currentLength - 1) / 2
             while (spaces != 0) {
                 writer.write(" ")
                 spaces -= 1
@@ -192,7 +192,47 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    var currentString: String
+    var maxLength = 0
+    val writer = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines())
+        if (maxLength < line.trim().length) maxLength = line.trim().length
+
+    for (line in File(inputName).readLines()) {
+        var newString = ""
+        currentString = Regex("""\s{2,}""").replace(line, " ").trim()
+
+        if ((currentString == " ") || (currentString.isEmpty())) writer.write(newString)
+        else {
+            val partsString = currentString.split(" ")
+            currentString = Regex("""\s""").replace(line, "")
+            var spaces = maxLength - currentString.length
+            var partsNumber = 0
+            var last = ""
+            for (part in partsString) partsNumber += 1
+
+            if (partsNumber > 1) {
+                partsNumber -= 1
+                last = partsString.last()
+                var spacesBetweenWords = (spaces / partsNumber).toDouble()
+                spacesBetweenWords = floor(spacesBetweenWords)
+                for (i in 0..partsString.size - 2) {
+                    newString += partsString[i]
+                    if (spaces % partsNumber != 0) {
+                        newString += " "
+                        spaces -= 1
+                        }
+                    for (j in 1..spacesBetweenWords.toInt())
+                        newString += " "
+                }
+            }
+            else newString = currentString
+            writer.write(newString)
+            writer.write(last)
+        }
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
