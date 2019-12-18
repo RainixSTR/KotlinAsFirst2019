@@ -3,7 +3,8 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import lesson1.task1.sqr
+import java.lang.IllegalArgumentException
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -174,4 +175,43 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = max(-1, kotlin.math.min(b, d) - max(a, c))
 
+fun bishopCells(size: Int, row: Int, column: Int): Int {
+    var cells = size - abs((size + 1) - (row + column))
+    cells += size - abs(row - column)
+    return cells - 2
+}
 
+fun chess(size: Int, figure: String, row: Int, column: Int): Int {
+    val figures = listOf("Rook", "Bishop", "King", "Queen", "Knight")
+    if ((figure !in figures) || (row > size) || (column > size) || (row < 1) || (column < 1))
+        throw IllegalArgumentException()
+    var numberOfCells = 0
+    when (figure) {
+        "Bishop" -> numberOfCells = bishopCells(size, row, column)
+        "Rook" -> numberOfCells = (size - 1) * 2
+        "King" -> {
+            when {
+                (row != 1) && (row != size) && (column != 1) && (column != size) -> numberOfCells = 8
+                ((row == 1) || (row == size)) && ((column == 1) || (column == size)) -> numberOfCells = 3
+                ((row == 1) || (row == size)) && (column != 1) && (column != size) -> numberOfCells = 5
+                (row != 1) && (row != size) && ((column == 1) || (column == size)) -> numberOfCells = 5
+            }
+        }
+        "Queen" -> {
+            numberOfCells = (size - 1) * 2
+            numberOfCells += bishopCells(size, row, column)
+        }
+        "Knight" -> {
+            numberOfCells = 8
+            if ((row + 2 > size) || (column + 1 > size)) numberOfCells -= 1
+            if ((row + 2 > size) || (column - 1 < 1)) numberOfCells -= 1
+            if ((row - 2 < 1) || (column - 1 < 1)) numberOfCells -= 1
+            if ((row - 2 < 1) || (column + 1 > size)) numberOfCells -= 1
+            if ((row + 1 > size) || (column + 2 > size)) numberOfCells -= 1
+            if ((row - 1 < 1) || (column + 2 > size)) numberOfCells -= 1
+            if ((row + 1 > size) || (column - 2 < 1)) numberOfCells -= 1
+            if ((row - 1 < 1) || (column - 2 < 1)) numberOfCells -= 1
+        }
+    }
+    return numberOfCells
+}

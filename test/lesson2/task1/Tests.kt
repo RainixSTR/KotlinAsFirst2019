@@ -90,4 +90,19 @@ class Tests {
         assertEquals(1, segmentLength(3, 6, 1, 4))
         assertEquals(4, segmentLength(1, 15, 10, 14))
     }
+
+    @org.junit.Test
+    fun chess() {
+        assertEquals(8, chess(5, "Rook", 2, 3 ))
+        assertEquals(7, chess(6, "Bishop", 2, 4 ))
+        assertEquals(6, chess(5, "Bishop", 2, 4 ))
+        assertThrows(IllegalArgumentException::class.java) {chess(5, "Rook", 2, 6 )}
+        assertThrows(IllegalArgumentException::class.java) {chess(5, "Roook", 2, 3 )}
+        assertEquals(3, chess(5, "King", 1, 1 ))
+        assertEquals(8, chess(5, "King", 2, 4 ))
+        assertEquals(4, chess(5, "Knight", 2, 2 ))
+        assertEquals(16, chess(5, "Queen", 3, 3 ))
+        assertEquals(12, chess(5, "Queen", 1, 4 ))
+
+    }
 }
